@@ -2,6 +2,9 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 import javax.swing.JFrame;
 
@@ -13,12 +16,17 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 import engine.Function;
+import engine.Genetic;
+import engine.GeneticOptions;
+import engine.Individual;
+import engine.Section;
 
 public class GeneticMinimaApplication {
 	private final static String WINDOW_LABEL = "Genetic Minima";
 
 	private JFrame frame;
 	private ChartPanel chartPanel;
+	private Genetic genetic;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -34,11 +42,22 @@ public class GeneticMinimaApplication {
 	}
 
 	public GeneticMinimaApplication() {
+		initializeGenetic();
 		initializeApplication();
 	}
 
 	private void initializeApplication() {
 		initFrame();
+	}
+
+	private void initializeGenetic() {
+		GeneticOptions options = new GeneticOptions();
+		options.from = 0;
+		options.to = 10;
+		options.populationSize = 100;
+		options.mutationRate = 0.005;
+		genetic = new Genetic(options);
+		genetic.live(10);
 	}
 
 	private void initFrame() {
@@ -49,7 +68,9 @@ public class GeneticMinimaApplication {
 	}
 
 	private void initGraph() {
-		JFreeChart lineChart = ChartFactory.createXYLineChart("", "x", "f(x)", createDataset(0.0, 10.0, 1000));
+		XYDataset dataset = createDataset(
+				Optional.ofNullable(Genetic.BEST).map(Individual::getSections).orElse(new ArrayList<>()));
+		JFreeChart lineChart = ChartFactory.createXYLineChart("", "x", "f(x)", dataset);
 
 		ChartPanel chartPanel = new ChartPanel(lineChart);
 		chartPanel.setPreferredSize(new java.awt.Dimension(560, 367));
@@ -58,18 +79,21 @@ public class GeneticMinimaApplication {
 		frame.add(chartPanel);
 	}
 
-	private XYDataset createDataset(double from, double to, int steps) {
+	private XYDataset createDataset(List<Section> sections) {
 		XYSeriesCollection dataset = new XYSeriesCollection();
 
-		XYSeries data = new XYSeries("f(x)");
-		double width = to - from;
-		for (int i = 0; i < steps; i++) {
-			double x = from + width * i / steps;
-			double y = Function.getValue(x);
-			data.add(x, y);
+		for (Section section : sections) {
+			XYSeries data = new XYSeries(section.hashCode());
+			double step = section.width() / Section.SIZE;
+			for (int i = 0; i < Section.SIZE; i++) {
+				double x = section.from() + step * i;
+				double y = Function.getValue(x);
+				data.add(x, y);
+			}
+			dataset.addSeries(data);
 		}
-		dataset.addSeries(data);
 
 		return dataset;
 	}
+
 }
