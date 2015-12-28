@@ -56,8 +56,9 @@ public class GeneticMinimaApplication {
 		options.to = 10;
 		options.populationSize = 100;
 		options.mutationRate = 0.005;
+		options.sectionNumber = 100;
 		genetic = new Genetic(options);
-		genetic.live(10);
+		genetic.live(200);
 	}
 
 	private void initFrame() {
@@ -83,14 +84,16 @@ public class GeneticMinimaApplication {
 		XYSeriesCollection dataset = new XYSeriesCollection();
 
 		for (Section section : sections) {
-			XYSeries data = new XYSeries(section.hashCode());
-			double step = section.width() / Section.SIZE;
-			for (int i = 0; i < Section.SIZE; i++) {
-				double x = section.from() + step * i;
-				double y = Function.getValue(x);
-				data.add(x, y);
+			if (section.containsMinimum()) {
+				XYSeries data = new XYSeries(section.hashCode());
+				double step = section.width() / Section.SIZE;
+				for (int i = 0; i < Section.SIZE; i++) {
+					double x = section.from() + step * i;
+					double y = Function.getValue(x);
+					data.add(x, y);
+				}
+				dataset.addSeries(data);
 			}
-			dataset.addSeries(data);
 		}
 
 		return dataset;

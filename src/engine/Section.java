@@ -65,7 +65,7 @@ public class Section {
 		double step = width() / SIZE;
 		xCoordinates = new double[SIZE + 1];
 		for (int i = 0; i < SIZE + 1; i++) {
-			xCoordinates[i] = step * i;
+			xCoordinates[i] = from + step * i;
 		}
 	}
 
