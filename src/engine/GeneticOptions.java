@@ -5,5 +5,5 @@ public class GeneticOptions {
 	public int populationSize;
 	public double from;
 	public double to;
-	public int sectionNumber = 500;
+	public int sectionNumber;
 }

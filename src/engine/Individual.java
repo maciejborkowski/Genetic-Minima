@@ -19,9 +19,6 @@ public class Individual {
 		this.from = from;
 		this.to = to;
 		this.sectionNumber = sectionNumber;
-		for (int i = 0; i < sectionNumber; i++) {
-			sections.add(new Section());
-		}
 		randomizeSections();
 	}
 
@@ -41,8 +38,7 @@ public class Individual {
 		borders[sectionNumber] = to;
 		Arrays.sort(borders);
 		for (int i = 0; i < sectionNumber; i++) {
-			sections.get(i).setFrom(borders[i]);
-			sections.get(i).setTo(borders[i + 1]);
+			sections.add(new Section(borders[i], borders[i + 1]));
 		}
 	}
 

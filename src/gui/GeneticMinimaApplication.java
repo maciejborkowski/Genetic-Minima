@@ -58,7 +58,11 @@ public class GeneticMinimaApplication {
 		options.mutationRate = 0.005;
 		options.sectionNumber = 100;
 		genetic = new Genetic(options);
-		genetic.live(200);
+		try {
+			genetic.live(100);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void initFrame() {
@@ -71,8 +75,9 @@ public class GeneticMinimaApplication {
 	private void initGraph() {
 		XYDataset dataset = createDataset(
 				Optional.ofNullable(Genetic.BEST).map(Individual::getSections).orElse(new ArrayList<>()));
+		System.out.println("Minimas: " + Genetic.BEST.fitness());
 		JFreeChart lineChart = ChartFactory.createXYLineChart("", "x", "f(x)", dataset);
-
+		lineChart.removeLegend();
 		ChartPanel chartPanel = new ChartPanel(lineChart);
 		chartPanel.setPreferredSize(new java.awt.Dimension(560, 367));
 
@@ -84,7 +89,8 @@ public class GeneticMinimaApplication {
 		XYSeriesCollection dataset = new XYSeriesCollection();
 
 		for (Section section : sections) {
-			if (section.containsMinimum()) {
+			//if (section.containsMinimum()) {
+				System.out.println(section.toString());
 				XYSeries data = new XYSeries(section.hashCode());
 				double step = section.width() / Section.SIZE;
 				for (int i = 0; i < Section.SIZE; i++) {
@@ -93,7 +99,7 @@ public class GeneticMinimaApplication {
 					data.add(x, y);
 				}
 				dataset.addSeries(data);
-			}
+			//}
 		}
 
 		return dataset;

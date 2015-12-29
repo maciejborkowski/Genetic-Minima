@@ -1,12 +1,19 @@
 package engine;
 
 public class Section {
-	public static int SIZE = 50;
-	private double from;
-	private double to;
+	public static int SIZE = 25;
+	private final double from;
+	private final double to;
 
-	private double[] xCoordinates;
+	private final double[] xCoordinates;
 	private double[] yCoordinates;
+
+	public Section(double from, double to) {
+		this.from = from;
+		this.to= to;
+		xCoordinates = new double[SIZE + 1];
+		calculateXCoordinates();
+	}
 
 	public boolean containsMinimum() {
 		double[] xs = getXCoordinates();
@@ -24,9 +31,6 @@ public class Section {
 	}
 
 	public double[] getXCoordinates() {
-		if (xCoordinates == null) {
-			calculateXCoordinates();
-		}
 		return xCoordinates;
 	}
 
@@ -45,25 +49,12 @@ public class Section {
 		return from;
 	}
 
-	public void setFrom(double from) {
-		xCoordinates = null;
-		yCoordinates = null;
-		this.from = from;
-	}
-
 	public double to() {
 		return to;
 	}
 
-	public void setTo(double to) {
-		xCoordinates = null;
-		yCoordinates = null;
-		this.to = to;
-	}
-
 	private void calculateXCoordinates() {
 		double step = width() / SIZE;
-		xCoordinates = new double[SIZE + 1];
 		for (int i = 0; i < SIZE + 1; i++) {
 			xCoordinates[i] = from + step * i;
 		}
@@ -74,6 +65,11 @@ public class Section {
 		for (int i = 0; i < SIZE + 1; i++) {
 			yCoordinates[i] = Function.getValue(xCoordinates[i]);
 		}
+	}
+
+	@Override
+	public String toString() {
+		return from + " - "  + to;
 	}
 
 }
