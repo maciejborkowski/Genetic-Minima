@@ -7,10 +7,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-import com.google.common.collect.Lists;
-
 public class Genetic {
-	public static Individual BEST = null;
+	public Individual best = null;
 	private static final Random RAND = new Random();
 
 	public List<Individual> population = new ArrayList<>();
@@ -28,9 +26,9 @@ public class Genetic {
 			die();
 			int sum = 0;
 			for (Individual individual : population) {
-				sum += individual.fitness() + 1;
+				sum += individual.minimums() + 1;
 			}
-			for (int j = 0; j < 15; j++) {
+			for (int j = 0; j < (int) (0.15 * options.populationSize); j++) {
 				Individual[] parents = choose(sum);
 				Individual[] offspring = cross(parents);
 				for (Individual child : offspring) {
@@ -54,7 +52,7 @@ public class Genetic {
 		int count = 0;
 
 		for (Individual individual : population) {
-			count += individual.fitness() + 1;
+			count += individual.minimums() + 1;
 			if (lower <= count && parents[0] == null) {
 				parents[0] = individual;
 			}
@@ -176,21 +174,28 @@ public class Genetic {
 
 	private void die() {
 		for (Individual individual : population) {
-			individual.fitness();
+			individual.minimums();
 		}
 		Collections.sort(population, new Comparator<Individual>() {
 
 			@Override
 			public int compare(Individual i1, Individual i2) {
-				return i2.fitness() - i1.fitness();
+				int cmp = Integer.compare(i2.minimums(), i1.minimums());
+				if (cmp != 0) {
+					return cmp;
+				} else {
+					return Double.compare(i1.precision(), i2.precision());
+				}
 			}
 
 		});
 
-		if (BEST == null || BEST.fitness() < population.get(0).fitness()) {
-			BEST = population.get(0);
+		if (best == null || best.minimums() < population.get(0).minimums()
+				|| (best.minimums() == population.get(0).minimums())
+						&& best.precision() > population.get(0).precision()) {
+			best = population.get(0);
 		}
-		population = new LinkedList<>(population.subList(0, 40));
+		population = new LinkedList<>(population.subList(0, (int) (0.4 * options.populationSize)));
 	}
 
 }

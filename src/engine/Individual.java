@@ -13,6 +13,7 @@ public class Individual {
 	public final List<Section> sections;
 	public final int sectionNumber;
 	private int minimums = -1;
+	private double precision = Double.NaN;
 
 	public Individual(double from, double to, int sectionNumber) {
 		this.sections = new ArrayList<>();
@@ -42,7 +43,7 @@ public class Individual {
 		}
 	}
 
-	public int fitness() {
+	public int minimums() {
 		if (minimums == -1) {
 			minimums = 0;
 			for (Section section : sections) {
@@ -53,6 +54,18 @@ public class Individual {
 		}
 
 		return minimums;
+	}
+
+	public double precision() {
+		if (Double.valueOf(precision).isNaN()) {
+			precision = 0.0;
+			for (Section section : sections) {
+				if (section.containsMinimum()) {
+					precision += section.minimum();
+				}
+			}
+		}
+		return precision;
 	}
 
 	public List<Section> getSections() {

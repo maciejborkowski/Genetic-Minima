@@ -6,4 +6,5 @@ public class GeneticOptions {
 	public double from;
 	public double to;
 	public int sectionNumber;
+	public int iterations;
 }

@@ -1,0 +1,84 @@
+\RequirePackage{ifpdf}
+	\ifpdf	
+		\documentclass[pdftex]{article}
+		\RequirePackage{color} 
+	\else
+		\documentclass[10pt]{article} 
+		\usepackage{nohyperref}		
+	\fi
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[left=1.5cm, top=1.3cm, textwidth=18.6cm, textheight=27cm]{geometry}
+\geometry{paper=a4paper}
+\usepackage{graphicx}
+\usepackage{titling}
+\usepackage{abstract}
+\usepackage{fancyhdr}
+\usepackage[procnames]{listings}
+\usepackage{amsmath}
+
+\definecolor{keywords}{RGB}{255,0,90}
+\definecolor{comments}{RGB}{0,0,113}
+\definecolor{red}{RGB}{160,0,0}
+\definecolor{green}{RGB}{0,150,0}
+
+\lhead{} \chead{} \rhead{}
+\lfoot{\emph{Softcomputing, 2015/2016}} \cfoot{} \rfoot{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\pagestyle{fancy}
+
+\pretitle{\includegraphics[width=.55\textwidth]{eka-en.png}\par\vspace{1ex}\begin{center}\huge}
+
+\posttitle{\par\end{center}}
+\preauthor{\begin{center} \large \begin{tabular}[t]{c}}
+\postauthor{\end{tabular}\par\end{center}}
+\predate{} \postdate{}
+\date{}
+
+\newcommand{\eng}[1]{(ang.\ \emph{#1})}
+
+\title{\vspace{10ex} Softcomputing report \\ \vspace{6ex} Genetic Algorithms for minima search of multimodal functions
+ \vspace{34ex}}
+
+\author{Maciej Borkowski\\ 195968@student.pwr.edu.pl}
+
+\begin{document}
+\thispagestyle{empty}
+\maketitle
+
+\clearpage
+\section{The problem}
+
+\section{Genetic algorithm introduction}
+
+\section{The function}
+
+\section{Implementation}
+\subsection{Environment}
+An application in Java was written implementing the genetic algorithml from scratch with tuneable parameters.
+\subsection{Algorithm}
+
+\subsection{GUI}
+A graphical user interface has been created to easily change change some parameters of network, visually represent the output of best individual found using genetic algorithm for the given parameters (Figure \ref{gui}).
+\begin{figure}[!htb]
+	\centering
+	\includegraphics[width=0.85\textwidth]{pictures/gui.png} 
+	\caption{Graphical User Interface}
+	\label{gui}
+\end{figure}
+Using the GUI user can:
+\begin{itemize}
+\item{something}
+\end{itemize}
+
+\section{Results analysis}
+
+\section{Final remarks}
+
+ \begin{thebibliography}{1}
+\bibitem{lecture}  {\em Lecture slides}
+\end{thebibliography}
+
+\end{document}

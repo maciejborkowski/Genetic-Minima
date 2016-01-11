@@ -1,4 +1,8 @@
 *.class
+*.log
+*.aux
+*.synctex.gz
+
 /jfreechart*
 /.metadata
 # Mobile Tools for Java (J2ME)
